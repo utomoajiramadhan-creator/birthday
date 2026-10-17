@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Sayang! ♡</title>
+<style>
+  :root {
+    --pink: #ffd4e5;
+    --pink-deep: #ff8fba;
+    --blue: #c9e8ff;
+    --blue-deep: #77bce9;
+    --cream: #fff6e7;
+    --ink: #5c4960;
+    --white: #fffdfb;
+  }
+
+.upload-custom:hover {
+  transform: translateY(-2px) rotate(-1deg);
+}
+
+.hidden-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+#photoStatus {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--ink);
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, var(--pink), var(--cream) 48%, var(--blue));
+    overflow-x: hidden;
+  }
+  button, input, textarea { font: inherit; }
+  button { cursor: pointer; border: 0; }
+  .floating { position: fixed; z-index: 0; pointer-events: none; opacity: .65; animation: bob 5s ease-in-out infinite; }
+  .f1 { top: 8%; left: 5%; font-size: 2rem; }
+  .f2 { top: 22%; right: 6%; font-size: 2.3rem; animation-delay: -2s; }
+  .f3 { bottom: 10%; left: 8%; font-size: 2rem; animation-delay: -1s; }
+  .f4 { bottom: 18%; right: 9%; font-size: 1.8rem; animation-delay: -3s; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-14px) rotate(7deg); } }
+  .shell { width: min(960px, 92vw); margin: 0 auto; padding: 28px 0 44px; position: relative; z-index: 1; }
+  .topline { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; }
+  .logo { background:#ffffffa8; border:2px dashed #f7a5c7; border-radius:999px; padding:9px 15px; font-weight:800; }
+  .music-btn { background:var(--white); border:2px solid #b8dcf6; color:var(--ink); border-radius:999px; padding:9px 14px; box-shadow:0 4px 0 #b8dcf6; }
+  .progress { height:9px; background:#ffffffa8; border-radius:20px; overflow:hidden; margin-bottom:22px; }
+  .progress span { display:block; height:100%; width:0; background:linear-gradient(90deg,var(--pink-deep),var(--blue-deep)); transition:width .35s; }
+  .page { display:none; animation:pop .35s ease; }
+  .page.active { display:block; }
+  @keyframes pop { from { opacity:0; transform:translateY(10px) scale(.985); } to {opacity:1; transform:none;} }
+  .card { background:#fffdfbdc; backdrop-filter:blur(8px); border:3px solid #fff; border-radius:30px; padding:clamp(22px, 5vw, 46px); box-shadow:0 12px 0 #eebbd0, 0 18px 35px #9abbd433; }
+  .center { text-align:center; }
+  .sticker { display:inline-grid; place-items:center; width:82px; height:82px; border-radius:26px; background:var(--blue); font-size:2.8rem; transform:rotate(-5deg); box-shadow:5px 5px 0 #f8b5d0; margin-bottom:14px; }
+  h1 { font-size:clamp(2rem,6vw,3.7rem); line-height:1.06; margin:8px 0 14px; color:#d85f98; }
+  h2 { font-size:clamp(1.55rem,4vw,2.5rem); margin:0 0 12px; color:#d85f98; }
+  p { line-height:1.8; font-size:1.04rem; }
+  .muted { opacity:.78; }
+  .btn-row { display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-top:25px; }
+  .btn { padding:13px 20px; border-radius:16px; font-weight:800; color:#59465e; background:var(--pink); box-shadow:0 5px 0 #eda7c6; transition:transform .15s, box-shadow .15s; }
+  .btn:hover { transform:translateY(-2px) rotate(-1deg); }
+  .btn:active { transform:translateY(3px); box-shadow:0 2px 0 #eda7c6; }
+  .btn.blue { background:var(--blue); box-shadow:0 5px 0 #9ecfee; }
+  .btn.cream { background:var(--cream); box-shadow:0 5px 0 #ead6b6; }
+  .btn.small { padding:9px 13px; font-size:.92rem; }
+  .pin-box { max-width:340px; margin:22px auto 0; }
+  .pin-input { width:100%; border:3px solid #f5b1ce; background:#fff; padding:16px; text-align:center; letter-spacing:.45em; border-radius:16px; outline:none; font-size:1.3rem; }
+  .pin-input:focus { border-color:var(--blue-deep); }
+  .hint { font-size:.86rem; margin:10px 0 0; }
+  .error { min-height:24px; color:#c34275; font-weight:700; }
+  .two-col { display:grid; grid-template-columns:1fr .9fr; gap:28px; align-items:center; }
+  .photo-frame { background:var(--cream); padding:12px 12px 40px; border:3px solid white; border-radius:18px; box-shadow:0 8px 0 #b6dcf4; transform:rotate(2deg); max-width:330px; margin:auto; }
+  .photo-frame img { width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:10px; display:block; background:linear-gradient(135deg,#ffd4e5,#c9e8ff); }
+  .photo-caption { text-align:center; margin-top:10px; font-weight:800; font-size:.95rem; }
+  .long-note { white-space:pre-line; text-align:left; line-height:1.95; max-height:420px; overflow:auto; padding:20px; background:#fff8f1; border:2px dashed #f2b1cc; border-radius:20px; }
+  .note-layout { display:grid; grid-template-columns:1.15fr .85fr; gap:22px; align-items:start; }
+  .upload { display:block; font-size:.85rem; margin-top:10px; }
+  .upload input { max-width:100%; margin-top:7px; }
+  .gift-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:25px 0; }
+  .gift { min-height:140px; border-radius:22px; background:#fff7ed; border:2px dashed #f4a9c8; padding:17px 10px; color:var(--ink); font-weight:800; transition:.2s; }
+  .gift:hover { transform:rotate(2deg) scale(1.03); background:#ffe5f0; }
+  .gift span { display:block; font-size:2.3rem; margin-bottom:8px; }
+  .reveal { display:none; padding:18px; border-radius:18px; background:#e7f5ff; border:2px solid white; line-height:1.7; }
+  .reveal.show { display:block; animation:pop .3s ease; }
+  .quiz-options { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:20px 0; }
+  .quiz-result { min-height:30px; font-weight:800; color:#c65088; }
+  .cake { font-size:6rem; cursor:pointer; display:inline-block; transition:transform .2s; filter:drop-shadow(0 7px 0 #f1bfd3); }
+  .cake:hover { transform:scale(1.1) rotate(5deg); }
+  .footer { text-align:center; font-size:.82rem; opacity:.75; margin-top:25px; }
+  .toast { position:fixed; z-index:10; left:50%; bottom:24px; transform:translate(-50%,20px); background:#fff; padding:12px 18px; border-radius:999px; box-shadow:0 5px 20px #0002; opacity:0; transition:.25s; pointer-events:none; text-align:center; max-width:90vw; }
+  .toast.show { opacity:1; transform:translate(-50%,0); }
+  .confetti { position:fixed; top:-20px; z-index:20; pointer-events:none; animation:fall 2.8s linear forwards; }
+  @keyframes fall { to { transform:translateY(110vh) rotate(700deg); opacity:0; } }
+  @media(max-width:700px) {
+    .two-col,.note-layout { grid-template-columns:1fr; }
+    .photo-frame { max-width:250px; }
+    .gift-grid { grid-template-columns:1fr; }
+    .gift { min-height:100px; }
+    .topline { align-items:flex-start; }
+    .card { border-radius:24px; }
+  }
+</style>
+</head>
+<body>
+<div class="floating f1">♡</div><div class="floating f2">✦</div><div class="floating f3">🌷</div><div class="floating f4">☁️</div>
+<main class="shell">
+  <div class="topline">
+    <div class="logo">🎀 little birthday my Bubub</div>
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵 Musik: <span id="musicState">mati</span></button>
+	
+	<audio id="birthdayMusic" loop>
+	<source src="penjaga hati.mp3" type="audio/mpeg">
+	</audio>
+  </div>
+  <div class="progress"><span id="progressBar"></span></div>
+
+  <section class="page active" data-page="0">
+    <div class="card center">
+      <div class="sticker">🔐</div>
+      <p class="muted">psst... halaman rahasia khusus satu orang!</p>
+      <h1>Masuk dulu, yaa ♡</h1>
+      <p>Untuk membuka hadiah kecil ini, masukkan PIN rahasianya.</p>
+      <div class="pin-box">
+        <input class="pin-input" id="pinInput" type="password" inputmode="numeric" maxlength="12" placeholder="••••" aria-label="PIN rahasia">
+        <div class="btn-row"><button class="btn" onclick="checkPin()">Buka pintu 💗</button><button class="btn blue" onclick="pinHint()">Petunjuk? 👀</button></div>
+        <p class="error" id="pinError" aria-live="polite"></p>
+        <p class="hint muted"></b> Ayooo coba tebak.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-page="1">
+    <div class="card center">
+      <div class="sticker">🎂</div>
+      <p>✨ tadaaa, berhasil masuk! ✨</p>
+      <h1>HAPPY BIRTHDAY, SAYANGGGKUUUU!</h1>
+      <p>Hari ini ada satu manusia manis cantik lucu yang harus dirayakan. Coba tebak siapa? Ya kamuuu! 🥳</p>
+      <p class="muted">Website kecil ini dibuat dengan banyak cinta, sedikit kode, dan tingkat kecintaan yang tidak bisa dipertanggungjawabkan.</p>
+      <div class="btn-row"><button class="btn" onclick="confetti(); toast('YUHUUU! Hari spesial dimulai! 🎉')">Pencet buat kejutan 🎉</button><button class="btn blue" onclick="nextPage()">Lanjut ➜</button></div>
+    </div>
+  </section>
+
+  <section class="page" data-page="2">
+    <div class="card">
+      <div class="two-col">
+        <div>
+          <p>📸 tiny memory</p><h2>Foto Cantiknya akuu</h2>
+          <p>Foto ini bisa dibilang foto favotite aku hehe. Foto yang sayang kirim yang dimana kita belum lama kenal.</p>
+         <p class="muted">
+		 foto kenangan penuh makna
+		 </p>
+
+        </div>
+        <div class="photo-frame">
+          <img id="memoryPhoto" 
+		  src="viaa.jpg" 
+		  alt="Foto kenangan kalian">
+          <div class="photo-caption">my favorite person ♡</div>
+        </div>
+      </div>
+      <div class="btn-row"><button class="btn cream" onclick="toast('Satu foto, banyak cerita. 📷')">Kirim peluk virtual 🫂</button><button class="btn blue" onclick="nextPage()">Lanjut ➜</button></div>
+    </div>
+  </section>
+
+  <section class="page" data-page="3">
+    <div class="card">
+      <p>💌 a letter from my heart</p><h2>Untuk kamu, manusia kesayanganku</h2>
+      <div class="note-layout">
+        <div class="long-note" id="loveLetter">Happy birthday, sayangkuuu! ♡
+
+Selamat bertambah usia, yaa. Semoga di umur yang baru ini, hal-hal baik semakin sering menemukan kamu. Semoga kamu selalu diberi kesehatan, hati yang tenang, pikiran yang jernih, dan tubuh yang kuat untuk menjalani hari-hari yang kadang melelahkan.
+
+Aku berdoa semoga langkah kamu selalu dimudahkan. Kalau ada impian yang sedang kamu perjuangkan, semoga satu per satu jalannya dibukakan. Kalau ada hal yang belum sesuai harapan, semoga kamu diberi kesabaran tanpa harus kehilangan semangat. Kamu nggak harus selalu kuat setiap waktu, ya. Kamu boleh istirahat, boleh sedih, boleh cerita, dan boleh minta ditemani.
+
+Semoga kamu dikelilingi orang-orang yang tulus, dijauhkan dari hal-hal yang ngebuat kamu kesel, dan selalu punya alasan kecil untuk tersenyum. Semoga rezekinya lancar selalu, urusannya dipermudah, dan kamu bisa terus tumbuh menjadi diri sendiri tanpa merasa harus menjadi orang lain.
+
+Terima kasih sudah hadir di hidup aku. Terima kasih untuk perhatian kecil, obrolan sederhana, waktu yang kamu luangin, dan semua hal yang mungkin terlihat biasa tetapi berarti buat aku. Aku mungkin belum sempurna dalam menunjukkan rasa sayang, tapi aku ingin terus belajar memahami kamu dan menjadi tempat yang nyaman untuk pulang bercerita.
+
+Di hari ulang tahunmu ini, aku nggak cuma berharap kamu bahagia hari ini. Aku berharap kamu menemukan kebahagiaan yang bertahan lama—di hal-hal sederhana, di pencapaian kecil, di hari yang cerah, bahkan di hari yang terasa berat.
+
+Selamat ulang tahun, sayang. Semoga kedamaian hati, pikiran, dan raga selalu menyertai kamu. Jangan lupa makan, istirahat, dan menyayangi diri sendiri juga, ya. Aku sayang kamu, hari ini, besok, dan semoga untuk banyak hari setelahnya. ♡</div>
+        <div class="photo-frame">
+          <img id="letterPhoto" 
+		  src="viaa.jpg" 
+		  alt="Foto untuk menemani surat">
+          <div class="photo-caption">a little piece of my heart 💗</div>
+        </div>
+      </div>
+      <p class="muted" style="font-size:.85rem"><b>id="loveLetter"</b>.</p>
+      <div class="btn-row"><button class="btn" onclick="toast('Peluk jauh yang paling hangat buat kamu. 🫂')">Peluk dari jauh 🫂</button><button class="btn blue" onclick="nextPage()">Lanjut ➜</button></div>
+    </div>
+  </section>
+
+  <section class="page" data-page="4">
+    <div class="card center">
+      <div class="sticker">🎁</div><h2>Buka hadiah kecilmu!</h2>
+      <p>Pilih kotak hadiah. Jangan serakah, tapi kalau mau pencet semuanya juga boleh. 😌</p>
+      <div class="gift-grid">
+        <button class="gift" onclick="revealGift(0)"><span>🎁</span>Hadiah 1</button>
+        <button class="gift" onclick="revealGift(1)"><span>💌</span>Hadiah 2</button>
+        <button class="gift" onclick="revealGift(2)"><span>🧸</span>Hadiah 3</button>
+      </div>
+      <div class="reveal" id="giftReveal" aria-live="polite"></div>
+      <div class="btn-row"><button class="btn blue" onclick="nextPage()">Lanjut ➜</button></div>
+    </div>
+  </section>
+
+  <section class="page" data-page="5">
+    <div class="card center">
+      <div class="sticker">💘</div><h2>Mini quiz: seberapa disayang kamu?</h2>
+      <p>Pertanyaan super serius. Jawab dengan penuh tanggung jawab. 🤓</p>
+      <p><b>Seberapa banyak kamu pantas mendapatkan hal-hal baik?</b></p>
+      <div class="quiz-options">
+        <button class="btn cream" onclick="quizAnswer(0)">Lumayan dikit</button>
+        <button class="btn blue" onclick="quizAnswer(1)">Banyak banget!</button>
+        <button class="btn" onclick="quizAnswer(2)">Sebanyak bintang di langit ✨</button>
+      </div>
+      <div class="quiz-result" id="quizResult"></div>
+      <p>Bonus: pencet kue di bawah buat meniup lilin virtual! 🎂</p>
+      <div class="cake" role="button" tabindex="0" onclick="blowCandles()" onkeydown="if(event.key==='Enter')blowCandles()" aria-label="Tiup lilin">🎂</div>
+      <div class="btn-row"><button class="btn blue" onclick="nextPage()">Lanjut ke penutup ➜</button></div>
+    </div>
+  </section>
+
+  <section class="page" data-page="6">
+    <div class="card center">
+      <div class="sticker">🌈</div><h1>One last thing...</h1>
+      <p>Kalau dunia lagi berisik, semoga kamu tetap punya ruang kecil untuk bernapas. Kalau hari terasa panjang, semoga ada hal sederhana yang bikin kamu bertahan. Dan kalau kamu lupa betapa berharganya dirimu, semoga kamu ingat bahwa kamu layak disayangi dengan tulus.</p>
+      <h2>Selamat ulang tahun, sayangku! ♡</h2>
+      <p>Semoga tahun ini membawa lebih banyak tawa, cerita, kesempatan, dan ketenangan buat kamu. Aku dukung kamu terus, yaa. 💗</p>
+      <div class="btn-row"><button class="btn" onclick="confetti(); toast('Wish sent! Semoga semua doa baik menemukan jalannya 💫')">Kirim semua doa ✨</button><button class="btn blue" onclick="goTo(1)">Ulangi dari awal ↺</button></div>
+      <p class="muted">dibuat sepenuh hati, khusus untuk kamu ♡</p>
+    </div>
+  </section>
+  <div class="footer">made with ♡, pastel colors & a little bit of silliness</div>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+  // GANTI PIN DI SINI:
+  const SECRET_PIN = "2008";
+  let currentPage = 0;
+  let musicOn = false;
+  let audioContext = null;
+
+  const pages = [...document.querySelectorAll(".page")];
+  function goTo(index) {
+    currentPage = Math.max(0, Math.min(index, pages.length - 1));
+    pages.forEach((page, i) => page.classList.toggle("active", i === currentPage));
+    document.getElementById("progressBar").style.width = (currentPage / (pages.length - 1) * 100) + "%";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function nextPage() { if (currentPage < pages.length - 1) { goTo(currentPage + 1); if (currentPage === 4) confetti(18); } }
+  function checkPin() {
+    const entered = document.getElementById("pinInput").value;
+    if (entered === SECRET_PIN) { document.getElementById("pinError").textContent = ""; goTo(1); confetti(32); }
+    else { document.getElementById("pinError").textContent = "Eitss, PIN-nya belum tepat. Coba lagi yaa 🥹"; document.getElementById("pinInput").value = ""; }
+  }
+  document.getElementById("pinInput").addEventListener("keydown", e => { if (e.key === "Enter") checkPin(); });
+  function pinHint() { toast("Petunjuk: Hmmm coba cium dulu nanti tau 😉 (ubah petunjuk ini di kode kalau perlu)"); }
+  function toast(message) {
+    const el = document.getElementById("toast"); el.textContent = message; el.classList.add("show");
+    clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+  }
+  function confetti(count = 48) {
+    const symbols = ["💗","💙","✨","🌸","🎉","♡","⭐"];
+    for (let i=0;i<count;i++) {
+      const el = document.createElement("span"); el.className = "confetti";
+      el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+      el.style.left = Math.random()*100 + "vw"; el.style.fontSize = (14+Math.random()*18)+"px";
+      el.style.animationDuration = (1.8+Math.random()*1.8)+"s";
+      document.body.appendChild(el); setTimeout(() => el.remove(), 4000);
+    }
+  }
+  function revealGift(n) {
+    const messages = [
+      "🎟️ BUQET BUNGA: Rawat Bungnya yaa kaya ngerawat anak sendiri haha,dengan kamu rawat kamu jadi punya temen dikamar.",
+      "💌 CAKE : Semoga suka sama cakenya, aku berharap ga terlalu manis si cakenya karna sayang udah manis.",
+      "🧸 KADO SEDERHANA: Hadiah hadiah sederhana yang aku kasih tanpa surprise ituu, semoga bermanfaat buat kamu yaa "
+    ];
+    const el = document.getElementById("giftReveal"); el.textContent = messages[n]; el.classList.add("show"); confetti(12);
+  }
+  function quizAnswer(n) {
+    const answers = [
+      "Jawaban kurang tepat! Nilai kamu: 1000000/10. 💗",
+      "BETUL! Tapi masih kurang besar—kamu pantas dapat hal baik berkali-kali lipat! 🌷",
+      "Jawaban paling benar. Bahkan bintang-bintangnya ikut setuju. ✨"
+    ];
+    document.getElementById("quizResult").textContent = answers[n]; confetti(15);
+  }
+  function blowCandles() { toast("FUUUUH! 🕯️ Semoga doa-doa baikmu terkabul satu per satu!"); confetti(35); }
+  
+
+function toggleMusic() {
+  const music = document.getElementById("birthdayMusic");
+  const state = document.getElementById("musicState");
+
+  if (!musicOn) {
+    music.play().then(() => {
+      musicOn = true;
+      state.textContent = "nyala ♫";
+    }).catch(() => {
+      toast("Coba tekan tombol musik sekali lagi ya 🎵");
+    });
+  } else {
+    music.pause();
+    musicOn = false;
+    state.textContent = "mati";
+  }
+}
+
+  goTo(0);
+</script>
+</body>
+</html>
